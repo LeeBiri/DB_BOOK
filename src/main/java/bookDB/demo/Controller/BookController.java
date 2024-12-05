@@ -93,4 +93,10 @@ public class BookController {
         return "books/genreBookList"; // 새로운 HTML 페이지로 이동
     }
 
+    @GetMapping("/books/search")
+    public String searchBooks(@RequestParam(required = false) String title, @RequestParam(required = false) String genre, Model model) {
+        List<Book> books = bookService.searchBooks(title, genre);
+        model.addAttribute("books", books);
+        return "books/search";
+    }
 }

@@ -49,4 +49,8 @@ public class BookService {
     public List<String> findAllGenres() {
         return bookRepository.findAllGenres(); // 책 테이블에서 모든 장르를 가져옴
     }
+
+    public List<Book> searchBooks(String title, String genre) {
+        return bookRepository.searchBooks(title, genre);
+    }
 }

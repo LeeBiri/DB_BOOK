@@ -23,6 +23,8 @@ public interface BookRepository {
     // 모든 장르 목록 조회
     @Query("SELECT DISTINCT b.genre FROM Book b")
     List<String> findAllGenres();
+
+    List<Book> searchBooks(String title, String genre);
 }
 
 

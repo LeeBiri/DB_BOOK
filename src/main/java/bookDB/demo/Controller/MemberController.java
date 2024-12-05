@@ -42,6 +42,7 @@ public class MemberController {
 
     @GetMapping("/register")
     public String registerForm() {
+        System.out.println("Register form loaded");
         return "/member/register";
     }
 
@@ -51,10 +52,12 @@ public class MemberController {
             memberService.addMember(member);
             return "redirect:/login";
         } catch (IllegalArgumentException e) {
+            System.out.println("Exception occurred: " + e.getMessage());
             model.addAttribute("error", e.getMessage());
             return "/member/register";
         }
     }
+
 
     @GetMapping("/deleteAccount")
     public String deleteAccountForm(HttpSession session, Model model) {

@@ -34,25 +34,25 @@ public class MemberRepositoryImpl implements MemberRepository {
         try {
             conn = dataSource.getConnection();
             pstmt = conn.prepareStatement(sql);
-
             pstmt.setLong(1, member.getId());
             pstmt.setString(2, member.getName());
             pstmt.setString(3, member.getEmail());
             pstmt.setString(4, member.getGender());
             pstmt.setString(5, member.getRole());
-            pstmt.setString(6, member.getMembershipLevel());
-            pstmt.setInt(7, member.getOverdueFee());
+            pstmt.setString(6, member.getMembershipLevel() != null ? member.getMembershipLevel() : "일반 회원");
+            pstmt.setInt(7, member.getOverdueFee() != null ? member.getOverdueFee() : 0);
             pstmt.setString(8, member.getPassword());
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected == 1) {
-                return member; // 삽입 성공
+                return member;
             } else {
                 throw new SQLException("Member insertion failed");
             }
         } catch (Exception e) {
-            throw new IllegalStateException("Failed to add book", e);
+            e.printStackTrace();
+            throw new IllegalStateException("Failed to add member", e);
         } finally {
-            close(conn, pstmt, null); // 리소스 정리
+            close(conn, pstmt, null);
         }
     }
 

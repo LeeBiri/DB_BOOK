@@ -3,6 +3,7 @@ package bookDB.demo.Repository;
 import bookDB.demo.Domain.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -57,11 +58,11 @@ public class jdbcBookRepository implements BookRepository {
                 book.setIsBorrowed(rs.getInt("is_borrowed"));
                 book.setBorrowCount(rs.getInt("borrow_count"));
                 book.setLocation(rs.getString("location"));
-             //   book.setRegistrationDate(rs.getDate("registration_date").toString());
+                //   book.setRegistrationDate(rs.getDate("registration_date").toString());
 
 
                 books.add(book);
-                System.out.println("Book added:"+ book); // 데이터 확인
+                System.out.println("Book added:" + book); // 데이터 확인
             }
             return books;
         } catch (Exception e) {
@@ -170,6 +171,36 @@ public class jdbcBookRepository implements BookRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<Book> searchBooks(String title, String genre) {
+        String sql;
+        Object[] params;
+        if ((title != null && !title.isEmpty()) && (genre != null && !genre.isEmpty())) {
+            sql = "SELECT * FROM BOOKS WHERE TITLE LIKE ? AND GENRE = ?";
+            params = new Object[]{"%" + title + "%", genre};
+        } else if (title != null && !title.isEmpty()) {
+            sql = "SELECT * FROM BOOKS WHERE TITLE LIKE ?";
+            params = new Object[]{"%" + title + "%"};
+        } else if (genre != null && !genre.isEmpty()) {
+            sql = "SELECT * FROM BOOKS WHERE GENRE = ?";
+            params = new Object[]{genre};
+        } else {
+            return List.of();
+        }
+        return jdbcTemplate.query(sql, params, (rs, rowNum) -> {
+            Book book = new Book();
+            book.setISBN(rs.getString("ISBN"));
+            book.setTitle(rs.getString("TITLE"));
+            book.setAuthor(rs.getString("AUTHOR"));
+            book.setPublisher(rs.getString("PUBLISHER"));
+            book.setGenre(rs.getString("GENRE"));
+            book.setIsBorrowed(rs.getInt("IS_BORROWED"));
+            book.setBorrowCount(rs.getInt("BORROW_COUNT"));
+            book.setLocation(rs.getString("LOCATION"));
+            return book;
+        });
     }
 
 }
