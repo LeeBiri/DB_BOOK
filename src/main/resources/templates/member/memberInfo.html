@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 정보</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #343a40;
+        }
+
+        .info {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .info p {
+            margin: 10px 0;
+        }
+
+        .button-group {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .button-group a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-group a:hover {
+            background-color: #0056b3;
+        }
+
+        .delete-button a {
+            background-color: #dc3545;
+        }
+
+        .delete-button a:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>내 정보</h1>
+    <div class="info">
+        <p><strong>ID:</strong> <span th:text="${member.id}"></span></p>
+        <p><strong>이름:</strong> <span th:text="${member.name}"></span></p>
+        <p><strong>이메일:</strong> <span th:text="${member.email}"></span></p>
+        <p><strong>성별:</strong> <span th:text="${member.gender}"></span></p>
+        <p><strong>회원 등급:</strong> <span th:text="${member.role}"></span></p>
+        <p><strong>연체료:</strong> <span th:text="${member.overdueFee}"></span></p>
+    </div>
+    <div class="button-group">
+        <div>
+            <a href="/logout">로그아웃</a>
+        </div>
+        <div class="delete-button">
+            <a href="/deleteAccount">회원 탈퇴</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
